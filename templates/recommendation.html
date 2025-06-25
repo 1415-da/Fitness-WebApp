@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fitness Recommendations</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+  <style>
+    body {
+      background: url('/static/images/project wallpaper.jpg') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Arial', sans-serif;
+    }
+
+    .glass-card {
+      background: rgba(25, 25, 25, 0.85);
+      backdrop-filter: blur(8px);
+      border-radius: 20px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+      padding: 2rem;
+      color: #fff;
+      animation: fadeIn 1s ease-in-out;
+      margin-top: 3rem;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: #90cdf4;
+    }
+
+    .label {
+      font-weight: bold;
+      color: #cbd5e0;
+    }
+
+    .day-title {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: #f6ad55;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+
+<body class="text-white">
+
+  <div class="glass-card max-w-6xl mx-auto space-y-12" id="recommendations">
+
+    <h1 class="text-4xl font-bold text-center">Your Personalized Fitness Recommendations</h1>
+
+    <!-- Weekly Plan -->
+    <div>
+      <h2 class="section-title">Weekly Workout Plan</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <p class="day-title">Monday</p>
+          <ul class="list-disc list-inside space-y-1">
+            <li>30 mins Jogging</li>
+            <li>Push-ups – 3 sets of 15</li>
+            <li>Squats – 3 sets of 20</li>
+            <li>Plank – 3 sets of 30 seconds</li>
+          </ul>
+
+          <p class="day-title">Tuesday</p>
+          <ul class="list-disc list-inside space-y-1">
+            <li>Cycling – 45 mins</li>
+            <li>Pull-ups – 3 sets of 10</li>
+            <li>Lunges – 3 sets of 12</li>
+            <li>Jump Rope – 10 mins</li>
+          </ul>
+
+          <p class="day-title">Wednesday</p>
+          <ul class="list-disc list-inside space-y-1">
+            <li>HIIT – 20 mins</li>
+            <li>Burpees – 3 sets of 12</li>
+            <li>Mountain Climbers – 3 sets</li>
+            <li>Yoga – 15 mins</li>
+          </ul>
+        </div>
+
+        <div>
+          <p class="day-title">Thursday</p>
+          <ul class="list-disc list-inside space-y-1">
+            <li>Swimming – 30 mins</li>
+            <li>Crunches – 3 sets of 25</li>
+            <li>Leg Raises – 3 sets</li>
+            <li>Stretching – 10 mins</li>
+          </ul>
+
+          <p class="day-title">Friday</p>
+          <ul class="list-disc list-inside space-y-1">
+            <li>Brisk Walk – 45 mins</li>
+            <li>Deadlifts – 3 sets (light weight)</li>
+            <li>Bench Press – 3 sets</li>
+            <li>Yoga – 20 mins</li>
+          </ul>
+
+          <p class="day-title">Saturday</p>
+          <ul class="list-disc list-inside space-y-1">
+            <li>Cardio Mix – 40 mins</li>
+            <li>Squat Jumps – 3 sets</li>
+            <li>Russian Twists – 3 sets</li>
+            <li>Stretching & Foam Rolling</li>
+          </ul>
+
+          <p class="day-title">Sunday</p>
+          <ul class="list-disc list-inside space-y-1">
+            <li>Active Rest Day</li>
+            <li>Light walk or casual swim</li>
+            <li>Meditation – 10 mins</li>
+            <li>Meal prep for next week</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Nutrition Suggestions -->
+    <div id="nutrition">
+      <h2 class="section-title">Nutrition Suggestions</h2>
+      <ul class="list-disc list-inside space-y-2">
+        <li>Eat 5-6 small meals a day</li>
+        <li>Lean proteins (chicken, tofu, eggs)</li>
+        <li>Whole grains, legumes, and vegetables</li>
+        <li>Healthy fats (nuts, olive oil, avocado)</li>
+        <li>Avoid processed sugar and deep-fried foods</li>
+      </ul>
+    </div>
+
+
+    <!-- Buttons -->
+    <div class="text-center pt-10 space-x-4">
+      <a href="/" class="inline-block bg-gray-700 hover:bg-gray-600 transition px-6 py-3 rounded-full font-semibold text-white">Home</a>
+      <a href="/form" class="inline-block bg-blue-600 hover:bg-blue-700 transition px-6 py-3 rounded-full font-semibold text-white">Generate Another Plan</a>
+      <a href="/progress" class="inline-block bg-green-500 hover:bg-green-600 transition px-6 py-3 rounded-full font-semibold text-white shadow-lg mr-2">Progress</a>
+    </div>
+
+  </div>
+
+</body>
+</html>

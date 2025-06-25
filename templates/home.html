@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fitness Tracker</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    .overlay { 
+      background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5));
+      backdrop-filter: blur(5px);
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes scaleIn {
+      from {
+        transform: scale(0.95);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .hero-title {
+      animation: fadeInUp 1s ease-out;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-subtitle {
+      animation: fadeInUp 1s ease-out 0.3s backwards;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+    }
+
+    .cta-button {
+      animation: scaleIn 1s ease-out 0.6s backwards;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    body {
+      background-attachment: fixed;
+      background-size: cover;
+      background-position: center;
+    }
+  </style>
+</head>
+<body class="relative min-h-screen bg-cover bg-center" style="background-image: url('/static/images/project wallpaper.jpg');">
+  <div class="overlay absolute inset-0 flex items-center justify-center">
+    <div class="text-center text-white p-8 rounded-lg max-w-4xl mx-auto">
+      <h1 class="hero-title text-7xl font-extrabold mb-6">Welcome to Your Fitness Journey!</h1>
+      <p class="hero-subtitle text-3xl mb-8 leading-relaxed">Transform your body and mind with personalized workouts.</p>
+      <a href="/form" class="cta-button inline-block px-10 py-5 bg-gradient-to-r from-blue-500 to-green-400 text-white text-xl font-semibold rounded-full shadow-lg hover:from-green-400 hover:to-blue-500">Get Started</a>
+    </div>
+  </div>
+</body>
+</html>

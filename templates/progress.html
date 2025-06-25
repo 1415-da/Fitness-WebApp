@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Progress</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+  <style>
+    body {
+      background: url('/static/images/project wallpaper.jpg') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Arial', sans-serif;
+    }
+    .glass-card {
+      background: rgba(25, 25, 25, 0.85);
+      backdrop-filter: blur(8px);
+      border-radius: 20px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+      padding: 2rem;
+      color: #fff;
+      animation: fadeIn 1s ease-in-out;
+      margin-top: 3rem;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .section-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: #90cdf4;
+    }
+    .label {
+      font-weight: bold;
+      color: #cbd5e0;
+    }
+  </style>
+</head>
+<body class="text-white">
+  <div class="glass-card max-w-3xl mx-auto space-y-12" id="progress-section">
+    <h1 class="text-4xl font-bold text-center mb-8">Your Progress</h1>
+    <div class="space-y-8">
+      <div id="workout-checklist" class="mb-8">
+        <h2 class="section-title">Mark Your Daily Workout Completion</h2>
+        <div class="flex flex-wrap gap-4 justify-center">
+          <!-- The checkboxes will be rendered by JS below for persistence and reactivity -->
+        </div>
+      </div>
+      <div>
+        <span class="label">Workout Completion</span>
+        <div class="w-full bg-gray-700 rounded-full h-4 overflow-hidden">
+          <div class="bg-blue-500 h-full rounded-full transition-all duration-500" id="progress-bar" style="width: 0%;"></div>
+        </div>
+        <p class="text-sm text-gray-300 mt-1" id="progress-text">No workout data available</p>
+      </div>
+      <div>
+        <h2 class="section-title">Weekly Activity Chart</h2>
+        <canvas id="activityChart" height="100"></canvas>
+      </div>
+    </div>
+    <div class="text-center pt-10">
+      <a href="/" class="inline-block bg-gray-700 hover:bg-gray-600 transition px-6 py-3 rounded-full font-semibold text-white">Home</a>
+    </div>
+  </div>
+  <script>
+    // Use same logic as recommendation page for progress
+    const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    const checklistContainer = document.querySelector('#workout-checklist .flex');
+    function renderChecklist() {
+      checklistContainer.innerHTML = days.map(day => `
+        <label class='flex items-center space-x-2 cursor-pointer transition-transform duration-300 transform hover:scale-105'>
+          <input type='checkbox' class='day-checkbox accent-blue-500 w-6 h-6 transition-all duration-300' id='checkbox-${day}'>
+          <span class='text-lg font-semibold' id='label-${day}'>${day}</span>
+        </label>
+      `).join('');
+    }
+    renderChecklist();
+    const checkboxes = days.map(day => document.getElementById('checkbox-' + day));
+
+    function loadCheckboxes() {
+      // Always start with all checkboxes unchecked on reload
+      days.forEach((day, i) => {
+        const cb = document.getElementById('checkbox-' + day);
+        if (cb) cb.checked = false;
+      });
+      updateProgress();
+      updateActivityChart();
+    }
+    function saveCheckboxes() {
+      const checkedDays = days.filter(day => {
+        const cb = document.getElementById('checkbox-' + day);
+        return cb && cb.checked;
+      });
+      localStorage.setItem('checkedDays', JSON.stringify(checkedDays));
+    }
+    function updateProgress() {
+      const completed = days.filter(day => {
+        const cb = document.getElementById('checkbox-' + day);
+        return cb && cb.checked;
+      }).length;
+      const total = days.length;
+      const percent = total ? Math.round((completed / total) * 100) : 0;
+      const progressBar = document.getElementById('progress-bar');
+      const progressText = document.getElementById('progress-text');
+      if (progressBar) {
+        progressBar.style.width = percent + '%';
+        progressBar.classList.add('animate-pulse');
+        setTimeout(() => progressBar.classList.remove('animate-pulse'), 600);
+      }
+      if (progressText) {
+        progressText.innerHTML = `${percent}% of workouts completed`;
+      }
+    }
+   
+    function updateActivityChart() {
+      const checkedMap = days.map(day => {
+        const cb = document.getElementById('checkbox-' + day);
+        return cb && cb.checked ? 60 : 0;
+      });
+      if (window.activityChartInstance) {
+        window.activityChartInstance.data.datasets[0].data = checkedMap;
+        window.activityChartInstance.update();
+      }
+    }
+    function addCheckboxListeners() {
+      days.forEach(day => {
+        const cb = document.getElementById('checkbox-' + day);
+        if (cb) {
+          cb.addEventListener('change', () => {
+            saveCheckboxes();
+            updateProgress();
+           
+            updateActivityChart();
+          });
+        }
+      });
+    }
+    window.addEventListener('DOMContentLoaded', function() {
+      renderChecklist();
+      loadCheckboxes();
+      addCheckboxListeners();
+      // Chart.js instance for activity chart
+      const ctx = document.getElementById('activityChart').getContext('2d');
+      const checkedMap = days.map(day => {
+        const cb = document.getElementById('checkbox-' + day);
+        return cb && cb.checked ? 60 : 0;
+      });
+      window.activityChartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: days,
+          datasets: [{
+            label: 'Workout Duration (mins)',
+            data: checkedMap,
+            backgroundColor: '#4299e1',
+            borderRadius: 10
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: { color: '#fff' },
+              grid: { color: 'rgba(255, 255, 255, 0.1)' }
+            },
+            x: {
+              ticks: { color: '#fff' },
+              grid: { color: 'rgba(255, 255, 255, 0.1)' }
+            }
+          },
+          plugins: {
+            legend: { labels: { color: '#fff' } }
+          },
+          animation: {
+            duration: 1000,
+            easing: 'easeInOutQuart'
+          }
+        }
+      });
+    });
+    window.addEventListener('storage', function() {
+      loadCheckboxes();
+      updateProgress();
+      updateActivityChart();
+    });
+  </script>
+</body>
+</html> 
