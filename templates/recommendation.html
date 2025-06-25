@@ -8,9 +8,13 @@
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
   <style>
     body {
-      background: url('/static/images/project wallpaper.jpg') no-repeat center center fixed;
-      background-size: cover;
       font-family: 'Arial', sans-serif;
+    }
+    .recommendation-bg {
+      background-image: url('{{ url_for('static', filename='images/project wallpaper.jpg') }}');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
     }
 
     .glass-card {
@@ -50,7 +54,7 @@
   </style>
 </head>
 
-<body class="text-white">
+<body class="text-white recommendation-bg">
 
   <div class="glass-card max-w-6xl mx-auto space-y-12" id="recommendations">
 
